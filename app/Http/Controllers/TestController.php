@@ -9,11 +9,12 @@ class TestController extends Controller
 {
 
 
+    //hello
     public function testLogin()
     {
         return view('test.testLogin');
     }
-
+    //github
     public function testGetSession(Request $request)
     {
         $request->session()->put('username', $request->get('username'));
