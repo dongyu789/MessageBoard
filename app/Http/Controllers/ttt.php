@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 
 class ttt extends Controller
 {
-    //ceshi
-    //cecscsdf
+    public function ttt()
+    {
+        return 'tesfsdlkfjsldkjf';
+    }
+
 }
