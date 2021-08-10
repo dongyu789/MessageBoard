@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 class ttt extends Controller
 {
-    //ceshi
-    //cecscsdf
+    public function ddd()
+    {
+        return 'ddd';
+    }
 }
