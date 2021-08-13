@@ -131,7 +131,7 @@ Route::get('index/receiveVideo', 'BaiduVideoController@receiveVideo');
 Route::post('index/receiveVideoOver', 'BaiduVideoController@receiveVideoOver');
 
 
-
+Route::get('index/search', 'ESController@elasticSearchMessage');
 
 
 

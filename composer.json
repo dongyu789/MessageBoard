@@ -7,10 +7,10 @@
     "require": {
         "php": ">=7.0.0",
         "fideloper/proxy": "~3.3",
-        "hufeiyu/call-baidu-voice": "dev-main",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
-        "textalk/websocket": "^1.5"
+        "textalk/websocket": "^1.5",
+        "elasticsearch/elasticsearch": "v7.6.1"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

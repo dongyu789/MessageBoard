@@ -107,13 +107,9 @@ html;
         $username = $request->session()->get('username');
         $message = $request->get('message');
 
-//        if (!empty($message)) {
-//            $newMessage = new Message();
-//            $newMessage->user_id = $username;
-//            $newMessage->message = $message;
-//            $newMessage->save();
-//        }
+
         //使用job来进行处理
+        if (!empty($message))
         $this->dispatch((new CommentJob($username, $message))->onQueue('comment'));
 
         return redirect()->route('MessageBoard.viewMessage');//注意这里
