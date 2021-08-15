@@ -10,6 +10,8 @@ use App\Models\User;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\MessageRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Service\CommentService;
+use App\Service\MessageService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Queue\RedisQueue;
@@ -181,7 +183,7 @@ html;
             return redirect('index/login');
         }
         $message_id = $request->message_id;
-        Message::where('id', $message_id)->delete();
+        app(MessageService::class)->deleteMessage($message_id);
 
         return redirect('/index/viewMyselfMessage');
     }
@@ -201,12 +203,10 @@ html;
     //编辑留言完成
     public function updateMessageOver(Request $request)
     {
-        $new_message = $request->new_message;
-        $message_id = $request->message_id;
+        $newMessage = $request->new_message;
+        $messageId = $request->message_id;
 
-        $message = Message::find($message_id);
-        $message->message = $new_message;
-        $message->save();
+        app(MessageService::class)->updateMessage($messageId, $newMessage);
 
         return redirect('/index/viewMyselfMessage');
 
@@ -241,16 +241,12 @@ html;
     //评论完成---跳转到评论页面
     public function commentMessageOver(Request $request)
     {
-        $message_id = $request->get('message_id');
+        $messageId = $request->get('message_id');
         $username = $request->session()->get('username');
         $comment = $request->get('comment');
 
         if (!empty($comment)) {
-            $new_comment = new Comment();
-            $new_comment->comment = $comment;
-            $new_comment->user_id = $username;
-            $new_comment->message_id = $message_id;
-            $new_comment->save();
+            app(CommentService::class)->commitComment($comment, $username, $messageId);
         }
 
         return redirect('index/commentMessage');

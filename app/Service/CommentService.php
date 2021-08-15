@@ -3,25 +3,19 @@
 
 namespace App\Service;
 
-use App\Models\Comment;
-use App\Models\Message;
-use App\Models\User;
-use App\Repository\ESRepository;
-use App\Repository\MessageRepository;
+
+
+use App\Repository\CommentRepository;
 
 class CommentService
 {
     /**
      * 提交评论
      */
-    public function commitComment($user_id, $message)
+    public function commitComment($comment, $username, $messageId)
     {
         //存入数据库
-        $messageRepository = new MessageRepository();
-        $messageRepository->save($user_id, $message);
-        $messageId = $messageRepository->getMessage_id();
-
-        $esRepository = new ESRepository();
-        $esRepository->save($user_id, $message, $messageId);
+        app(CommentRepository::class)->save($comment, $username, $messageId);
     }
+
 }

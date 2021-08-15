@@ -72,5 +72,30 @@ class ESRepository
         $this->client->index($params);
     }
 
+    public function delete($messageId)
+    {
+        $params = [
+            'index' => 'message',
+            'id' => $messageId
+        ];
+        $this->client->delete($params);
+    }
+
+    public function update($messageId, $newMessage)
+    {
+        $params = [
+            'index' => 'message',
+            'type' => '_doc',
+            'id' => $messageId,
+            'body' => [
+                'doc' => [
+                    'message' => $newMessage
+                ]
+            ]
+        ];
+        $this->client->update($params);
+    }
+
+
 
 }

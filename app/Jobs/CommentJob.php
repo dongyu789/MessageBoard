@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Service\CommentService;
+use App\Service\MessageService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -47,7 +47,7 @@ class CommentJob implements ShouldQueue
      */
     public function handle()
     {
-        app(CommentService::class)->commitComment($this->user_id, $this->message);
+        app(MessageService::class)->commitMessage($this->user_id, $this->message);
         //dd();
         //print_r('helloskldfjalkdfjasjflksjdfj');
     }
