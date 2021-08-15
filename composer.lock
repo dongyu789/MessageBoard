@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1186801f3416e7f83d08e0027e53b9bb",
+    "content-hash": "c9560834adb41adba89f4abbf6fb9dda",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -571,6 +571,47 @@
                 "source": "https://github.com/fideloper/TrustedProxy/tree/master"
             },
             "time": "2017-06-15T17:19:42+00:00"
+        },
+        {
+            "name": "hufeiyu/call-baidu-voice",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dongyu789/composer_hufeiyu.git",
+                "reference": "3a5cfeb8dea1b3c5492582b4a70008d4b918a445"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dongyu789/composer_hufeiyu/zipball/3a5cfeb8dea1b3c5492582b4a70008d4b918a445",
+                "reference": "3a5cfeb8dea1b3c5492582b4a70008d4b918a445",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Hufeiyu\\CallBaiduVoice\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "hufeiyu",
+                    "email": "1207155125@qq.com"
+                }
+            ],
+            "description": "hufeiyu call baidu voice",
+            "support": {
+                "issues": "https://github.com/dongyu789/composer_hufeiyu/issues",
+                "source": "https://github.com/dongyu789/composer_hufeiyu/tree/main"
+            },
+            "time": "2021-07-23T03:03:58+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -5667,7 +5708,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "hufeiyu/call-baidu-voice": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
