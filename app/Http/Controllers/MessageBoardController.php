@@ -110,6 +110,7 @@ html;
         $message = $request->get('message');
 
 
+        Log::info('开始留言');
         //使用job来进行处理
         if (!empty($message))
         $this->dispatch((new CommentJob($username, $message))->onQueue('comment'));

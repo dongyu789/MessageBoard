@@ -8,6 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Log;
 
 class CommentJob implements ShouldQueue
 {
@@ -36,6 +37,7 @@ class CommentJob implements ShouldQueue
     public function __construct($user_id, $message)
     {
         //
+
         $this->user_id = $user_id;
         $this->message = $message;
     }
@@ -48,7 +50,6 @@ class CommentJob implements ShouldQueue
     public function handle()
     {
         app(MessageService::class)->commitMessage($this->user_id, $this->message);
-        //dd();
-        //print_r('helloskldfjalkdfjasjflksjdfj');
+
     }
 }

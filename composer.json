@@ -9,9 +9,12 @@
         "elasticsearch/elasticsearch": "v7.6.1",
         "fideloper/proxy": "~3.3",
         "hufeiyu/call-baidu-voice": "dev-main",
+        "illuminate/queue": "^5.5.44",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
-        "textalk/websocket": "^1.5"
+        "predis/predis": "^1.1",
+        "textalk/websocket": "^1.5",
+        "vladimir-yuldashev/laravel-queue-rabbitmq": "6.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
