@@ -5,6 +5,10 @@
 @section('title_2', '留言')
 @section('username', $username)
 @section('mybody')
+    <a href="" >我收到的消息</a>
+    <br>
+    <br>
+    <a href="/index/receiveVideo">进入语音留言</a>
     <form action="/index/leavingMessageOver" method="post">
         <input type="hidden" name="_token" value="{{csrf_token()}}">
         <br>
@@ -21,23 +25,14 @@
     </form>
     <br>
     <br>
-    <a href="/index/receiveVideo">进入语音留言</a>
+
     <br>
     <br>
 {{--    <form action="/index/viewMessage" method="post">--}}
 {{--        <input type="hidden" name="_token" value="{{csrf_token()}}">--}}
 {{--        <button type="submit">查看所有留言</button>--}}
 {{--    </form>--}}
-    <a href="/index/viewMessage">查看所有留言</a>
-    <br>
-    <br>
-    <br>
-    <br>
-{{--    <form action="/index/viewMyselfMessage" method="post">--}}
-{{--        <input type="hidden" name="_token" value="{{csrf_token()}}">--}}
-{{--        <button type="submit">查看我自己的留言</button>--}}
-{{--    </form>--}}
-    <a href="/index/viewMyselfMessage">查看我自己的留言</a>
+
 
     @if($errors->any())
         @foreach($errors->all() as $error)

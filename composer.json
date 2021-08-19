@@ -14,7 +14,8 @@
         "laravel/tinker": "~1.0",
         "predis/predis": "^1.1",
         "textalk/websocket": "^1.5",
-        "vladimir-yuldashev/laravel-queue-rabbitmq": "6.0"
+        "vladimir-yuldashev/laravel-queue-rabbitmq": "6.0",
+      "ext-json": "*"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
