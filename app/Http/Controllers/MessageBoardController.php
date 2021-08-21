@@ -12,6 +12,7 @@ use App\Http\Requests\MessageRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Service\CommentService;
 use App\Service\MessageService;
+use App\Service\RabbitMQService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Queue\RedisQueue;
@@ -112,8 +113,10 @@ html;
 
         Log::info('开始留言');
         //使用job来进行处理
-        if (!empty($message))
-        $this->dispatch((new CommentJob($username, $message))->onQueue('comment'));
+        if (!empty($message)) {
+            RabbitMQService::getInstance()->sendMessage($username, $message);
+        }
+        //$this->dispatch((new CommentJob($username, $message))->onQueue('comment'));
 
         return redirect()->route('MessageBoard.viewMessage');//注意这里
     }

@@ -9,33 +9,40 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 class RabbitMQService
 {
-    private $rabbitmq;
-    private $channel;
-    private $receiveToMysql;
+    private static $rabbitmq;
+    private static $channel;
+    private static $receiveToMysql;
+    private static $exchange;
+    private static $receiveToRedis;
 
-    public function __construct()
+    //单例
+    private static $rabbitMQService;
+
+    final public function __construct()
     {
-        $this->rabbitmq = new RabbitMQ();
-        $this->channel = $this->rabbitmq->getChannel();
+        RabbitMQService::$rabbitmq = new RabbitMQ();
+        RabbitMQService::$channel = RabbitMQService::$rabbitmq->getChannel();
+        RabbitMQService::$receiveToMysql = 'receiveToMysql';
+        RabbitMQService::$receiveToRedis = 'receiveToRedis';
+        RabbitMQService::$exchange = 'sendMessageExchange';
+
+        //init
+        RabbitMQService::$channel->exchange_declare(RabbitMQService::$exchange, 'fanout', false, true, false);
+        RabbitMQService::$channel->queue_declare(RabbitMQService::$receiveToMysql, false, true, false, false);
+        RabbitMQService::$channel->queue_declare(RabbitMQService::$receiveToRedis, false, true, false, false);
+        RabbitMQService::$channel->queue_bind(RabbitMQService::$receiveToMysql, RabbitMQService::$exchange);
+        RabbitMQService::$channel->queue_bind(RabbitMQService::$receiveToRedis, RabbitMQService::$exchange);
+
     }
 
-    public function init()
+    public static function getInstance()
     {
-        //只需要执行一次
-        $this->receiveToMysql = 'receiveToMysql';
-        $this->receiveToRedis = 'receiveToRedis';
-
-        $exchange = 'sendMessageExchange';
-
-        $this->channel->exchange_declare($exchange, 'fanout', false, true, false);
-
-        $this->channel->queue_declare($this->receiveToMysql, false, true, false, false);
-        $this->channel->queue_declare($this->receiveToRedis, false, true, false, false);
-
-        $this->channel->queue_bind($this->receiveToMysql, $exchange);
-        $this->channel->queue_bind($this->receiveToRedis, $exchange);
-
+        if (RabbitMQService::$rabbitMQService == null) {
+            RabbitMQService::$rabbitMQService = new RabbitMQService();
+        }
+        return RabbitMQService::$rabbitMQService;
     }
+
 
     /**
      * 有人发送留言，推送到指定queue
@@ -47,7 +54,7 @@ class RabbitMQService
             'message' => $message
         ];
         $m = new AMQPMessage(json_encode($msg));
-        $this->channel->basic_publish($m);
+        RabbitMQService::$channel->basic_publish($m, RabbitMQService::$exchange, RabbitMQService::$receiveToMysql);
 
     }
 
@@ -56,18 +63,20 @@ class RabbitMQService
      */
     public function receiveToMysql()
     {
-
         $callback = function ($msg) {
-            $body = json_decode($msg->body);
+            $body = json_decode($msg->body, true);
+
             $userId = $body['userId'];
             $message = $body['message'];
             app(MessageService::class)->commitMessage($userId, $message);
         };
 
-        $this->channel->basic_consume($this->receiveToMysql, '', false, true, false, false, $callback);
+        RabbitMQService::$channel->basic_consume(RabbitMQService::$receiveToMysql, '', false, true, false, false, $callback);
 
-        while (count($this->channel->callbacks)) {
-            $this->channel->wait();
+        while (count(RabbitMQService::$channel->callbacks)) {
+            echo "waiting...\n";
+            RabbitMQService::$channel->wait();
+            echo "ok\n";
         }
 
     }
