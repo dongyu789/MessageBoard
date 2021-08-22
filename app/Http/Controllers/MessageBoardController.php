@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Queue\RedisQueue;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 use phpDocumentor\Reflection\Types\True_;
 
 class MessageBoardController extends Controller
@@ -54,6 +55,12 @@ class MessageBoardController extends Controller
         $request->session()->put('pwd', $pwd);
         $request->session()->put('login_status', true);
 
+        if (Redis::exists('user:'.$username) == 0) {
+            Redis::hset('user:'.$username, 'loginCount', 0, 'messageCount', 0, 'viewCount', 0);
+        }
+
+        //缓存增加
+        Redis::hincrby('user:'.$username, 'loginCount', 1);
         //return 'hello';
         return redirect('/index/leavingMessage');
     }
@@ -89,6 +96,9 @@ class MessageBoardController extends Controller
             //对密码进行加密
             $user->pwd = password_hash($pwd, PASSWORD_DEFAULT);
             $user->save();
+
+            //新增Redis缓存数据
+            Redis::hset('user:'.$username, 'loginCount', 0, 'messageCount', 0, 'viewCount', 0);
         } else {
             return redirect()->back();
         }
@@ -126,11 +136,19 @@ html;
     {
         $username = $request->session()->get('username', '游客');
 
+        //自己的留言数量
+        $messageCount = Redis::hget('user:'.$username, 'messageCount');
+        $loginCount = Redis::hget('user:'.$username, 'loginCount');
+        $viewCount = Redis::hget('user:'.$username, 'viewCount');
+
         $messages = Message::paginate(5);
         //$messages = Message::get();
         return view('viewMessage', [
             'messages' => $messages,
-            'username' => $username
+            'username' => $username,
+            'messageCount' => $messageCount,
+            'loginCount' => $loginCount,
+            'viewCount' => $viewCount,
         ]);
 
     }
@@ -234,6 +252,12 @@ html;
         $message_id = $request->session()->get('message_id');
         $message = Message::find($message_id);//主留言
         $comments = Comment::where('message_id', $message_id)->paginate(5);//其他评论
+        $userName = $request->session()->get('username');
+
+
+        //浏览数缓存增加
+        Redis::hincrby('user:'.$userName, 'viewCount', 1);
+
 
         return view('commentMessage', [
             'username' => $request->session()->get('username'),

@@ -16,6 +16,8 @@
 <a href="/index/leavingMessage">返回留言</a>
 <a href="/index/viewMyselfMessage">查看我自己的留言</a>
 <a href="/index/viewMessage">查看所有留言</a>
+<br>
+@yield('user')
 <center>
 
 

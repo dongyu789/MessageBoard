@@ -4,6 +4,14 @@
 
 @section('title_2', '查看留言')
 @section('username', $username)
+
+@section('user')
+    登陆次数:{{$loginCount}}
+    <br>
+    发帖数:{{$messageCount}}
+    <br>
+    被访问数:{{$viewCount}}
+@endsection
 @section('mybody')
     @if($username == '游客')
         <center><h1>游客<a href="/index/login">登录</a> 后查看每条留言的评论</h1></center>

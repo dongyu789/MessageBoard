@@ -5,6 +5,7 @@ namespace App\Service;
 
 
 use App\Client\RabbitMQ\RabbitMQ;
+use Illuminate\Support\Facades\Redis;
 use PhpAmqpLib\Message\AMQPMessage;
 
 class RabbitMQService
@@ -88,6 +89,29 @@ class RabbitMQService
      */
     public function receiveToRedis()
     {
+        $callback = function ($msg) {
+            //缓存增加
+            $body = json_decode($msg->body, true);
+            $userId = $body['userId'];
+            Redis::hincrby('user:'.$userId, 'messageCount', 1);
+        };
+
+        RabbitMQService::$channel->basic_consume(
+            RabbitMQService::$receiveToRedis,
+            '',
+            false,
+            true,
+            false,
+            false,
+            $callback
+        );
+
+        while (count(RabbitMQService::$channel->callbacks)) {
+            echo "waiting...\n";
+            RabbitMQService::$channel->wait();
+            echo "ok\n";
+        }
+
 
     }
 
