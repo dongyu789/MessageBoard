@@ -15,11 +15,10 @@
         <br>
         写留言 ：（右下角拖动可以放大窗口）
         <br>
-        <textarea rows="3" cols="20" name="message" >{{$message}}</textarea>
+        <textarea rows="20" cols="60" name="message" >{{$message}}</textarea>
         <br>
         <br>
-        <br>
-        <br>
+
 
         <button type="submit">提交</button>
     </form>
