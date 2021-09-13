@@ -5,7 +5,7 @@
 @section('title_2', '留言')
 @section('username', $username)
 @section('mybody')
-    <a href="" >我收到的消息</a>
+    <a href="" >我收到的消息(开发中)</a>
     <br>
     <br>
     <a href="/index/receiveVideo">进入语音留言</a>
