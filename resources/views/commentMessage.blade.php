@@ -14,7 +14,7 @@
             <td>修改时间 ： {{$message->updated_at}}</td>
         </tr>
         <tr>
-            <td>{{$message->message}}</td>
+            <td colspan="5"><pre>{{$message->message}}</pre></td>
         </tr>
     </table>
 
@@ -32,7 +32,7 @@
                 <td>修改时间 ： {{$comment->updated_at}}</td>
             </tr>
             <tr>
-                <td>{{$comment->comment}}</td>
+                <td colspan="5"><pre>{{$comment->comment}}</pre></td>
             </tr>
         </table>
         <br>

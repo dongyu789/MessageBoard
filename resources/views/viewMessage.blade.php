@@ -46,7 +46,7 @@
                 @endif
             </tr>
             <tr>
-                <td>{{$message->message}}</td>
+                <td colspan="5"><pre>{{$message->message}}</pre></td>
             </tr>
         </table>
         <br>

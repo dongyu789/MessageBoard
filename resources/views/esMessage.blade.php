@@ -38,8 +38,8 @@
                 @endif
             </tr>
             <tr>
-                <td>
-                   {!!$data['message']!!}
+                <td colspan="5">
+                   <pre>{!!$data['message']!!}</pre>
                 </td>
 
             </tr>
