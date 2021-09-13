@@ -54,12 +54,12 @@ Route::get('index/register', 'MessageBoardController@register');
 /*********************
 留言页面
  *********************/
-Route::get('index/leavingMessage', 'MessageBoardController@leavingMessage')->middleware('usercheck');
+Route::get('index/leavingMessage', 'MessageBoardController@leavingMessage');
 
 /*********************
 注册完毕页面
  *********************/
-Route::post('index/registerOver', 'MessageBoardController@registerOver')->middleware('usercheck');
+Route::post('index/registerOver', 'MessageBoardController@registerOver');
 
 /*********************
 留言完毕页面
@@ -84,7 +84,7 @@ Route::get('index/cancellation', 'MessageBoardController@cancellation');
 /*********************
 注销完毕页面
  *********************/
-Route::post('index/cancellationOver', 'MessageBoardController@cancellationOver')->middleware('usercheck');
+Route::post('index/cancellationOver', 'MessageBoardController@cancellationOver');
 
 /*********************
 删除留言页面

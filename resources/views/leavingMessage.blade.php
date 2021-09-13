@@ -13,7 +13,7 @@
         <input type="hidden" name="_token" value="{{csrf_token()}}">
         <br>
         <br>
-        写留言 ：
+        写留言 ：（右下角拖动可以放大窗口）
         <br>
         <textarea rows="3" cols="20" name="message" >{{$message}}</textarea>
         <br>
